@@ -1,0 +1,7 @@
+#Protocol of the image will be like this
+{
+	image "image"
+	others data
+}
+then from the post request I will get the images and change it in bytes then save it in the database
+if i want to get the image I will get the bytes images and change it in image then send it thought post request

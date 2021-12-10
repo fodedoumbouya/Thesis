@@ -31,6 +31,23 @@ dependencies:
     sdk: flutter
 
 
+  # UI
+  fluttertoast: ^8.0.8 #show dialog 
+
+  #service
+  logger: ^1.1.0 #for log
+
+
+
+  #database
+  sqlbrite: ^2.2.0
+  hive: ^2.0.4 # cache data 
+  hive_flutter: ^1.1.0 #get path for hive
+
+#--------Background--------------------------
+  flutter_local_notifications: ^9.0.0
+ # background_fetch: ^1.0.1
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -38,6 +55,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+#Hive generator
+  hive_generator: ^1.1.1
+  build_runner: ^2.1.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jufe_thesis/UI/pages/LaunchPage/launchPage.dart';
+import 'package:jufe_thesis/utils/common_utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,7 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          CommonUtils.navigationBarToNextPage(context, const LaunchPage()).then(
+              (value) => CommonUtils.printShowNavigator("LaunchPage", false));
+          CommonUtils.printShowNavigator("LaunchPage", true);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
