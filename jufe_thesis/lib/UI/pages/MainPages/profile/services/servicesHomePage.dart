@@ -62,12 +62,12 @@ class _ServicesPageState extends State<ServicesPage> {
       onTap: () {
         switch (title) {
           case report:
-            CommonUtils.navigationBarToNextPage(context, Report(title))
+            CommonUtils.navigationBarToNextPage(context, Report(title), false)
                 .then((value) => CommonUtils.printShowNavigator(title, false));
             CommonUtils.printShowNavigator(title, true);
             break;
           case suggestion:
-            CommonUtils.navigationBarToNextPage(context, Report(title))
+            CommonUtils.navigationBarToNextPage(context, Report(title), false)
                 .then((value) => CommonUtils.printShowNavigator(title, false));
             CommonUtils.printShowNavigator(title, true);
             break;

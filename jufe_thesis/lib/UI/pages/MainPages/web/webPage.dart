@@ -154,8 +154,8 @@ class _WebPageState extends State<WebPage> {
           // default:
         }
         if (caseChosed.isNotEmpty) {
-          CommonUtils.navigationBarToNextPage(
-                  context, WebViewPage(_listOptions[caseChosed]!, caseChosed))
+          CommonUtils.navigationBarToNextPage(context,
+                  WebViewPage(_listOptions[caseChosed]!, caseChosed), false)
               .then(
                   (value) => CommonUtils.printShowNavigator("WebPages", false));
           CommonUtils.printShowNavigator("WebViewPage", true);

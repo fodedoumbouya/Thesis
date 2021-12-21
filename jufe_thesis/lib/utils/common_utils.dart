@@ -41,9 +41,14 @@ class CommonUtils {
     }
   }
 
-  static Future navigationBarToNextPage(BuildContext context, Widget page) {
-    return Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => page))
-        .then((value) => null);
+  static Future navigationBarToNextPage(
+      BuildContext context, Widget page, bool direct) {
+    if (direct) {
+      return Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => page));
+    } else {
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => page));
+    }
   }
 }

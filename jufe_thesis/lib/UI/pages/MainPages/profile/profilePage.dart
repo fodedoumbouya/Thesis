@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jufe_thesis/DB/db/model/userdbModel.dart';
+import 'package:jufe_thesis/DB/db/userdb/userdb.dart';
 import 'package:jufe_thesis/UI/pages/MainPages/profile/services/servicesHomePage.dart';
 import 'package:jufe_thesis/utils/common_utils.dart';
 
@@ -10,6 +13,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final UserDbModel userdb = Get.find();
+
+  late Userdb user;
+
+  @override
+  void initState() {
+    user = userdb.getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: IconButton(
                   onPressed: () {
                     CommonUtils.navigationBarToNextPage(
-                            context, const ServicesPage())
+                            context, const ServicesPage(), false)
                         .then((value) => CommonUtils.printShowNavigator(
                             "ServicesPage", false));
                     CommonUtils.printShowNavigator("ServicesPage", true);
@@ -95,17 +108,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 key: UniqueKey(),
                 top: size.height / 2.2,
                 left: 10,
-                child: textDisplay('Email Adrress', 'test@qq.com')),
+                child: textDisplay('Email Adrress', user.email)),
             Positioned(
                 key: UniqueKey(),
                 top: size.height / 1.85,
                 left: 10,
-                child: textDisplay('Name', 'test Name')),
+                child: textDisplay('Name', user.name)),
             Positioned(
                 key: UniqueKey(),
                 top: size.height / 1.6,
                 left: 10,
-                child: textDisplay('Student ID', '2000000')),
+                child: textDisplay('Student ID', user.studendID)),
             Positioned(
               key: UniqueKey(),
               top: size.height / 1.15,

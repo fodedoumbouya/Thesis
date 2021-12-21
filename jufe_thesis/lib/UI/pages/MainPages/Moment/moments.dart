@@ -121,7 +121,7 @@ class _MomentsPageState extends State<MomentsPage> {
       await MomentUtils().getImage().then((image) {
         if (image.path.isNotEmpty) {
           CommonUtils.navigationBarToNextPage(
-                  context, AddImage(Image.file(File(image.path))))
+                  context, AddImage(Image.file(File(image.path))), false)
               .then(
                   (value) => CommonUtils.printShowNavigator("AddImage", false));
           CommonUtils.printShowNavigator("AddImage", true);

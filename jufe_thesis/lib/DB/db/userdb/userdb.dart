@@ -2,8 +2,8 @@ import 'package:hive/hive.dart';
 
 part 'userdb.g.dart';
 
-@HiveType(typeId: 0, adapterName: "UserAdapter")
-class Name {
+@HiveType(typeId: 0, adapterName: "UserAdapterDB")
+class Userdb {
   @HiveField(0)
   int? id;
   @HiveField(1)
@@ -18,4 +18,7 @@ class Name {
   bool? login;
   @HiveField(6)
   String? imageUrl;
+
+  Userdb(this.id, this.name, this.email, this.password, this.studendID,
+      this.login, this.imageUrl);
 }

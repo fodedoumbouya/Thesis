@@ -6,28 +6,29 @@ part of 'userdb.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UserAdapter extends TypeAdapter<Name> {
+class UserAdapterDB extends TypeAdapter<Userdb> {
   @override
   final int typeId = 0;
 
   @override
-  Name read(BinaryReader reader) {
+  Userdb read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Name()
-      ..id = fields[0] as int?
-      ..name = fields[1] as String?
-      ..email = fields[2] as String?
-      ..password = fields[3] as String?
-      ..studendID = fields[4] as String?
-      ..login = fields[5] as bool?
-      ..imageUrl = fields[6] as String?;
+    return Userdb(
+      fields[0] as int?,
+      fields[1] as String?,
+      fields[2] as String?,
+      fields[3] as String?,
+      fields[4] as String?,
+      fields[5] as bool?,
+      fields[6] as String?,
+    );
   }
 
   @override
-  void write(BinaryWriter writer, Name obj) {
+  void write(BinaryWriter writer, Userdb obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -52,7 +53,7 @@ class UserAdapter extends TypeAdapter<Name> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserAdapter &&
+      other is UserAdapterDB &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

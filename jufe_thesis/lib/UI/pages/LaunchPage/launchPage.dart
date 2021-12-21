@@ -1,6 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jufe_thesis/DB/db/model/userdbModel.dart';
+import 'package:jufe_thesis/DB/db/userdb/userdb.dart';
+import 'package:jufe_thesis/UI/pages/Login/Login.dart';
 import 'package:jufe_thesis/UI/pages/MainPages/mainPage.dart';
 import 'package:jufe_thesis/utils/common_utils.dart';
 
@@ -12,6 +16,29 @@ class LaunchPage extends StatefulWidget {
 }
 
 class _LaunchPageState extends State<LaunchPage> {
+  //-------Controller
+  final UserDbModel _userDbModel = Get.find();
+
+  late Userdb userdb;
+
+  verification() async {
+    if (userdb.login!) {
+      CommonUtils.navigationBarToNextPage(context, const MainPage(), true)
+          .then((value) => CommonUtils.printShowNavigator("MainPage", false));
+      CommonUtils.printShowNavigator("MainPage", true);
+    } else {
+      CommonUtils.navigationBarToNextPage(context, const Login(), true)
+          .then((value) => CommonUtils.printShowNavigator("Login", false));
+      CommonUtils.printShowNavigator("Login", true);
+    }
+  }
+
+  @override
+  void initState() {
+    userdb = _userDbModel.getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,10 +52,7 @@ class _LaunchPageState extends State<LaunchPage> {
                 end: Theme.of(context).primaryColor),
             duration: const Duration(seconds: 3),
             onEnd: () {
-              CommonUtils.navigationBarToNextPage(context, const MainPage())
-                  .then((value) =>
-                      CommonUtils.printShowNavigator("HomePage", false));
-              CommonUtils.printShowNavigator("HomePage", true);
+              verification();
             },
             builder: (_, Color? color, __) {
               return ColorFiltered(
@@ -66,7 +90,7 @@ class _LaunchPageState extends State<LaunchPage> {
                               Colors.grey[400]!,
                               Colors.grey[500]!,
                             ],
-                            stops: [
+                            stops: const [
                               0.1,
                               0.3,
                               0.8,
