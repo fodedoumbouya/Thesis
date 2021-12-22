@@ -2,8 +2,10 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jufe_thesis/API/API_Resquest.dart';
 import 'package:jufe_thesis/DB/db/model/userdbModel.dart';
 import 'package:jufe_thesis/DB/db/userdb/userdb.dart';
+import 'package:jufe_thesis/DB/userModelJson/userModelJson.dart';
 import 'package:jufe_thesis/UI/pages/Login/forgotPassword/forgotPassword.dart';
 import 'package:jufe_thesis/UI/pages/Login/signUp.dart';
 import 'package:jufe_thesis/UI/pages/MainPages/mainPage.dart';
@@ -30,6 +32,7 @@ class _LoginState extends State<Login> {
   static const String passField = "PASSWORD";
   static const String loginButton = "Log-In";
   static const String signUpButton = "Sign-Up";
+  static const String LoginSucess = "LOG-IN SUCESS";
 
   bool isHiden = true;
 
@@ -106,20 +109,30 @@ class _LoginState extends State<Login> {
   }
 
   loginVerification() {
-    //TODO change to server verifation
-    Userdb user = userdb.getUserData();
-    if (emailController.text == user.email) {
-      if (passwordController.text == user.password) {
-        user.login = true;
-        userdb.setUser(user);
-        CommonUtils.navigationBarToNextPage(context, const MainPage(), false)
-            .then((value) => CommonUtils.printShowNavigator("MainPage", false));
-        CommonUtils.printShowNavigator("MainPage", true);
-      } else {
-        UtilsDialog().ShowShortToast("Password not correct", true);
-      }
+    if (GetUtils.isEmail(emailController.text)) {
+      UserLoginRequest userLoginRequest = UserLoginRequest(
+          email: emailController.text, password: passwordController.text);
+      API_Resquest().loginRequest(userLoginRequest).then((user) {
+        if (user.Response == LoginSucess) {
+          Userdb userlocaldb = Userdb(
+              1,
+              user.UserDb.name,
+              user.UserDb.email,
+              user.UserDb.password,
+              user.UserDb.studentID,
+              true,
+              user.UserDb.image);
+          userdb.setUser(userlocaldb);
+          CommonUtils.navigationBarToNextPage(context, const MainPage(), true)
+              .then(
+                  (value) => CommonUtils.printShowNavigator("MainPage", false));
+          CommonUtils.printShowNavigator("MainPage", true);
+        } else {
+          UtilsDialog().ShowShortToast(user.Response, true);
+        }
+      });
     } else {
-      UtilsDialog().ShowShortToast("Email not correct", true);
+      UtilsDialog().ShowShortToast("YOUR E-MAIL IS NOT CORRECT", true);
     }
   }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:jufe_thesis/API/API_Resquest.dart';
 import 'package:jufe_thesis/DB/db/model/userdbModel.dart';
 import 'package:jufe_thesis/DB/db/userdb/userdb.dart';
+import 'package:jufe_thesis/DB/userModelJson/userModelJson.dart';
 import 'package:jufe_thesis/utils/dialog.dart';
 
 class SignUp extends StatefulWidget {
@@ -33,6 +35,7 @@ class _SignUpState extends State<SignUp> {
   static const String notEqual = "Different";
   static const String existStudentID = "Student ID Exist";
   static const String sucess = "Sucess";
+  static const String resquestFail = "resquest error";
 
   @override
   void initState() {
@@ -158,6 +161,9 @@ class _SignUpState extends State<SignUp> {
       case sucess:
         UtilsDialog().ShowShortToast(msg, false);
         break;
+      case resquestFail:
+        UtilsDialog().ShowShortToast(msg, true);
+        break;
     }
   }
 
@@ -166,19 +172,22 @@ class _SignUpState extends State<SignUp> {
       if (studentIDController.text.length == 10 &&
           studentIDController.text.isNumericOnly) {
         if (passwordController.text == repasswordController.text) {
-          //TODO not save directly in the server
-          Userdb user = Userdb(
-              1,
-              nomController.text + " " + prenomController.text,
-              emailController.text,
-              passwordController.text,
-              studentIDController.text,
-              false,
-              "");
-          userdb.setUser(user);
-          handleLogingError(sucess, sucess);
-          Future.delayed(const Duration(seconds: 2));
-          Navigator.of(context).pop();
+          UserData userData = UserData(
+              ID: 0,
+              name: nomController.text + " " + prenomController.text,
+              email: emailController.text,
+              password: passwordController.text,
+              studentID: studentIDController.text,
+              image: "");
+          API_Resquest().registerRequest(userData).then((resp) {
+            if (resp.Error) {
+              handleLogingError(sucess, resp.Resp);
+              Future.delayed(const Duration(seconds: 2));
+              Navigator.of(context).pop();
+            } else {
+              handleLogingError(resquestFail, resp.Resp);
+            }
+          });
         } else {
           handleLogingError(notEqual, "Your password is ");
         }
